@@ -1,0 +1,67 @@
+class Habitacion:
+    def __init__(self, numero, tipo, precio):
+        self.numero = numero
+        self.tipo = tipo
+        self.precio = precio
+        self.disponible = True
+
+    def reservar(self):
+        if self.disponible:
+            self.disponible = False
+            print(f"Habitación {self.numero} reservada exitosamente.")
+        else:
+            print(f"Habitación {self.numero} no está disponible.")
+
+    def liberar(self):
+        if not self.disponible:
+            self.disponible = True
+            print(f"Habitación {self.numero} liberada exitosamente.")
+        else:
+            print(f"Habitación {self.numero} ya está disponible.")
+
+
+class Hotel:
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.habitaciones = []
+
+    def agregar_habitacion(self, habitacion):
+        self.habitaciones.append(habitacion)
+
+    def mostrar_disponibles(self):
+        print(f"Habitaciones disponibles en {self.nombre}:")
+        for habitacion in self.habitaciones:
+            if habitacion.disponible:
+                print(f"- Habitación {habitacion.numero} ({habitacion.tipo}) - ${habitacion.precio:.2f}")
+
+    def reservar_habitacion(self, numero):
+        for habitacion in self.habitaciones:
+            if habitacion.numero == numero:
+                habitacion.reservar()
+                return
+        print(f"Habitación {numero} no encontrada.")
+
+
+# Ejemplo de uso
+hotel = Hotel("Hotel Paraíso")
+
+# Agregar habitaciones al hotel
+hotel.agregar_habitacion(Habitacion(101, "Simple", 50.00))
+hotel.agregar_habitacion(Habitacion(102, "Doble", 75.00))
+hotel.agregar_habitacion(Habitacion(103, "Suite", 120.00))
+
+# Mostrar habitaciones disponibles
+hotel.mostrar_disponibles()
+
+# Reservar una habitación
+hotel.reservar_habitacion(102)
+
+# Intentar reservar la misma habitación nuevamente
+hotel.reservar_habitacion(102)
+
+# Liberar una habitación
+habitacion = hotel.habitaciones[1]
+habitacion.liberar()
+
+# Mostrar habitaciones disponibles nuevamente
+hotel.mostrar_disponibles()
